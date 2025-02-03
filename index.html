@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Browser Home Page</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div id="header">
+        <img id="profile-picture" src="" alt="Profile Picture">
+        <h4 id="greeting"></h4>
+        <span id="user-name" style="font-weight: 500;"></span>
+        <div id="date-time"></div>
+    </div>
+
+    
+    <!-- Modal to ask for profile details -->
+    <div id="welcomeModal" style="display: none;">
+        <h3>Welcome! Please set up your profile</h3>
+        
+        <label for="userName">Name:</label>
+        <input type="text" id="userName" placeholder="Enter your name" />
+        
+        <label for="userProfilePicture">Profile Picture:</label>
+        <input type="file" id="userProfilePicture" accept="image/*" onchange="previewUserImage(event)" />
+        
+        <img id="profilePreview" style="display: none;" width="100" height="100" />
+        
+        <button onclick="saveUserProfile()">Save Profile</button>
+    </div>
+    
+    
+
+    <div id="search-section">
+        <input type="text" id="search" placeholder="Search the web..." autocomplete="off">
+        <button onclick="searchWeb()">Search</button>
+    </div>
+    <div id="suggestions-container">
+        <ul id="suggestion-list"></ul>
+    </div>
+
+    <div id="shortcut-section">
+        <button id="add-shortcut-btn">+</button>
+        <div id="shortcut-list"></div>
+    </div>
+    <!-- Shortcut Modal for adding/editing -->
+    <div id="shortcut-modal">
+        <div id="modal-content">
+            <button id="close-modal-btn">˟</button>
+            <h2>Add/Edit Shortcut</h2>
+            <form id="add-shortcut-form">
+                <input type="text" id="shortcut-name" placeholder="Shortcut Name" required>
+                <input type="url" id="shortcut-url" placeholder="Website URL" required>
+                <button type="submit">Save Shortcut</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Three-Dot Menu Modal -->
+    <div id="menu-modal">
+        <div id="menu-content">
+            <button id="close-menu-btn">˟</button>
+            <button id="edit-shortcut-btn">Edit</button>
+            <button id="delete-shortcut-btn">Delete</button>
+        </div>
+    </div>
+    <div id="menu-container">
+        <div id="three-dot-menu" onclick="toggleMenu()">&#9776;</div>
+        <div id="dropdown-menu">
+            <button onclick="openEditProfileModal()">Edit Profile</button>
+            <button onclick="showSearchHistory()">Show Search History</button>
+            <button onclick="deleteSearchHistory()">Delete Search History</button>
+            <button onclick="toggleDarkMode()">Dark Mode</button>
+        </div>
+    </div>
+    <!-- Popup for Search History -->
+    <div id="searchHistoryPopup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closePopup()">&times;</span>
+            <h3>Search History</h3>
+            <div id="searchHistoryList"></div>
+        </div>
+    </div>
+
+    <div id="editProfileModal" style="display: none;">
+        <div>
+            <h3>Edit Profile</h3>
+            
+            <!-- Input for user name -->
+            <label for="profileName">Name:</label>
+            <input type="text" id="profileName" placeholder="Enter your name" />
+    
+            <!-- Input for profile picture upload -->
+            <label for="profilePicture">Profile Picture:</label>
+            <input type="file" id="profilePicture" accept="image/*" onchange="previewImage(event)" />
+    
+            <!-- Image preview -->
+            <img id="imagePreview" src="" alt="Image Preview" style="display: none;" width="100" height="100" />
+    
+            <button onclick="saveProfile()">Save</button>
+            <button onclick="closeEditProfileModal()">Cancel</button>
+        </div>
+    </div>
+
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>
