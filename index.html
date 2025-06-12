@@ -4,108 +4,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Browser Home Page</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>My Personal Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        button {
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        input, .shortcut-container {
+            transition: all 0.2s ease-in-out;
+        }
+        .dark #search {
+            border-color: #444; /* Specific dark mode border for search */
+        }
+    </style>
 </head>
 
-<body>
-    <div id="header">
-        <img id="profile-picture" src="" alt="Profile Picture">
-        <h4 id="greeting"></h4>
-        <span id="user-name" style="font-weight: 500;"></span>
-        <div id="date-time"></div>
+<body class="flex flex-col items-center min-h-screen justify-start bg-gradient-to-br from-blue-50 to-indigo-100 text-gray-800 p-6 relative overflow-y-auto dark:from-gray-900 dark:to-gray-800 dark:text-gray-100">
+
+    <div id="header" class="text-center mt-6 mb-10 w-full max-w-lg">
+        <img id="profile-picture" src="https://via.placeholder.com/150/609BFF/FFFFFF?text=JP" alt="Profile Picture" class="w-32 h-32 md:w-40 md:h-40 mx-auto border-4 border-blue-400 rounded-full object-cover shadow-lg hover:shadow-xl transform hover:scale-105 transition-transform duration-300 ease-in-out">
+        <h4 id="greeting" class="text-3xl md:text-4xl font-bold text-gray-900 mt-4 dark:text-gray-100"></h4>
+        <span id="user-name" class="text-xl md:text-2xl font-semibold text-blue-700 dark:text-blue-300"></span>
+        <div id="date-time" class="text-base text-gray-600 mt-2 dark:text-gray-400"></div>
     </div>
 
-    
-    <!-- Modal to ask for profile details -->
-    <div id="welcomeModal" style="display: none;">
-        <h3>Welcome! Please set up your profile</h3>
-        
-        <label for="userName">Name:</label>
-        <input type="text" id="userName" placeholder="Enter your name" />
-        
-        <label for="userProfilePicture">Profile Picture:</label>
-        <input type="file" id="userProfilePicture" accept="image/*" onchange="previewUserImage(event)" />
-        
-        <img id="profilePreview" style="display: none;" width="100" height="100" />
-        
-        <button onclick="saveUserProfile()">Save Profile</button>
-    </div>
-    
-    
+    <div id="welcomeModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4 hidden">
+        <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md text-center transform scale-95 opacity-0 transition-all duration-300 ease-out dark:bg-gray-800 dark:text-gray-100" data-modal-content>
+            <h3 class="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">Welcome! Set up your profile</h3>
 
-    <div id="search-section">
-        <input type="text" id="search" placeholder="Search the web..." autocomplete="off">
-        <button onclick="searchWeb()">Search</button>
-    </div>
-    <div id="suggestions-container">
-        <ul id="suggestion-list"></ul>
+            <div class="mb-5 text-left">
+                <label for="userName" class="block text-gray-700 text-sm font-medium mb-2 dark:text-gray-300">Your Name:</label>
+                <input type="text" id="userName" placeholder="Enter your name"
+                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+            </div>
+
+            <div class="mb-6 text-left">
+                <label for="userProfilePicture" class="block text-gray-700 text-sm font-medium mb-2 dark:text-gray-300">Profile Picture:</label>
+                <input type="file" id="userProfilePicture" accept="image/*" onchange="previewUserImage(event)"
+                       class="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer dark:text-gray-400 dark:file:bg-blue-900 dark:file:text-blue-200 dark:hover:file:bg-blue-800" />
+            </div>
+
+            <img id="profilePreview" class="hidden w-28 h-28 rounded-full object-cover mx-auto mb-6 border-4 border-gray-300 shadow-md dark:border-gray-600" />
+
+            <button onclick="saveUserProfile()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg w-full transition duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 shadow-md">Save Profile</button>
+        </div>
     </div>
 
-    <div id="shortcut-section">
-        <button id="add-shortcut-btn">+</button>
-        <div id="shortcut-list"></div>
+    <div id="search-section" class="mb-8 flex items-center space-x-3 w-full max-w-2xl px-4 relative">
+        <input type="text" id="search" placeholder="Search the web..." autofocus autocomplete="off"
+               class="flex-grow p-4 text-lg border border-gray-300 rounded-xl focus:outline-none focus:ring-3 focus:ring-blue-300 shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+        <button onclick="searchWeb()"
+                 class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-7 rounded-xl shadow-md transition duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Search</button>
+
+        <div id="suggestions-container" class="absolute left-0 right-0 top-full mt-2 hidden rounded-xl shadow-lg overflow-hidden z-10">
+            <ul id="suggestion-list" class="list-none p-0 m-0 w-full bg-white border border-gray-200 rounded-xl dark:bg-gray-800 dark:border-gray-700"></ul>
+        </div>
     </div>
-    <!-- Shortcut Modal for adding/editing -->
-    <div id="shortcut-modal">
-        <div id="modal-content">
-            <button id="close-modal-btn">˟</button>
-            <h2>Add/Edit Shortcut</h2>
-            <form id="add-shortcut-form">
-                <input type="text" id="shortcut-name" placeholder="Shortcut Name" required>
-                <input type="url" id="shortcut-url" placeholder="Website URL" required>
-                <button type="submit">Save Shortcut</button>
+
+    <div id="shortcut-section" class="w-full max-w-6xl bg-white bg-opacity-90 p-8 rounded-xl shadow-lg mb-10 dark:bg-gray-800 dark:bg-opacity-90">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6 dark:text-gray-100">My Shortcuts</h2>
+        <div id="shortcut-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 justify-center">
+        </div>
+    </div>
+
+    <div id="shortcut-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4 hidden">
+        <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md relative text-center transform scale-95 opacity-0 transition-all duration-300 ease-out dark:bg-gray-800 dark:text-gray-100" data-modal-content>
+            <button id="close-modal-btn" class="absolute top-3 right-4 text-gray-500 hover:text-gray-700 text-4xl font-light leading-none dark:text-gray-400 dark:hover:text-gray-200">&times;</button>
+            <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">Add/Edit Shortcut</h2>
+            <form id="add-shortcut-form" class="space-y-5">
+                <div>
+                    <label for="shortcut-name" class="block text-gray-700 text-sm font-medium mb-2 text-left dark:text-gray-300">Shortcut Name:</label>
+                    <input type="text" id="shortcut-name" placeholder="e.g., Google, YouTube" required
+                               class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                </div>
+                <div>
+                    <label for="shortcut-url" class="block text-gray-700 text-sm font-medium mb-2 text-left dark:text-gray-300">Website URL:</label>
+                    <input type="url" id="shortcut-url" placeholder="e.g., https://www.google.com" required
+                               class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                </div>
+                <button type="submit"
+                                 class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg w-full transition duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 shadow-md mt-6">Save Shortcut</button>
             </form>
         </div>
     </div>
 
-    <!-- Three-Dot Menu Modal -->
-    <div id="menu-modal">
-        <div id="menu-content">
-            <button id="close-menu-btn">˟</button>
-            <button id="edit-shortcut-btn">Edit</button>
-            <button id="delete-shortcut-btn">Delete</button>
-        </div>
-    </div>
-    <div id="menu-container">
-        <div id="three-dot-menu" onclick="toggleMenu()">&#9776;</div>
-        <div id="dropdown-menu">
-            <button onclick="openEditProfileModal()">Edit Profile</button>
-            <button onclick="showSearchHistory()">Show Search History</button>
-            <button onclick="deleteSearchHistory()">Delete Search History</button>
-            <button onclick="toggleDarkMode()">Dark Mode</button>
-        </div>
-    </div>
-    <!-- Popup for Search History -->
-    <div id="searchHistoryPopup" class="popup">
-        <div class="popup-content">
-            <span class="close" onclick="closePopup()">&times;</span>
-            <h3>Search History</h3>
-            <div id="searchHistoryList"></div>
+    <div id="menu-modal" class="absolute bg-white border border-gray-200 rounded-lg shadow-xl py-2 z-40 hidden opacity-0 scale-95 transition-all duration-200 ease-out dark:bg-gray-700 dark:border-gray-600">
+        <div id="menu-content" class="flex flex-col">
+            <button id="edit-shortcut-btn" class="px-5 py-2 text-left text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 rounded-md focus:outline-none">Edit</button>
+            <button id="delete-shortcut-btn" class="px-5 py-2 text-left text-red-600 hover:bg-red-50 dark:hover:bg-red-900 dark:text-red-300 rounded-md focus:outline-none">Delete</button>
         </div>
     </div>
 
-    <div id="editProfileModal" style="display: none;">
-        <div>
-            <h3>Edit Profile</h3>
-            
-            <!-- Input for user name -->
-            <label for="profileName">Name:</label>
-            <input type="text" id="profileName" placeholder="Enter your name" />
-    
-            <!-- Input for profile picture upload -->
-            <label for="profilePicture">Profile Picture:</label>
-            <input type="file" id="profilePicture" accept="image/*" onchange="previewImage(event)" />
-    
-            <!-- Image preview -->
-            <img id="imagePreview" src="" alt="Image Preview" style="display: none;" width="100" height="100" />
-    
-            <button onclick="saveProfile()">Save</button>
-            <button onclick="closeEditProfileModal()">Cancel</button>
+    <div id="menu-container" class="fixed top-6 right-6 z-50">
+        <div id="three-dot-menu" onclick="toggleMenu()" class="cursor-pointer text-4xl leading-none text-blue-600 hover:text-blue-800 transition-colors duration-200 dark:text-blue-400 dark:hover:text-blue-200">
+            &#9776;
+        </div>
+        <div id="dropdown-menu" class="absolute right-0 mt-3 w-52 bg-white border border-gray-200 rounded-lg shadow-xl py-2 z-50 hidden opacity-0 scale-95 transition-all duration-200 ease-out origin-top-right dark:bg-gray-700 dark:border-gray-600">
+            <button onclick="openShortcutModal()" class="block w-full text-left px-5 py-2 text-blue-700 font-semibold hover:bg-blue-50 dark:text-blue-300 dark:hover:bg-blue-900 rounded-md focus:outline-none">Add New Shortcut</button>
+            <div class="border-t border-gray-200 my-2 dark:border-gray-600"></div> <button onclick="openEditProfileModal()" class="block w-full text-left px-5 py-2 text-gray-800 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 rounded-md focus:outline-none">Edit Profile</button>
+            <button onclick="openSearchHistoryFromMenu()" class="block w-full text-left px-5 py-2 text-gray-800 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 rounded-md focus:outline-none">Search History</button>
+            <button onclick="deleteSearchHistory()" class="block w-full text-left px-5 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900 dark:text-red-300 rounded-md focus:outline-none">Clear History</button>
+            <button onclick="toggleDarkMode()" class="block w-full text-left px-5 py-2 text-gray-800 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 rounded-md focus:outline-none">Toggle Dark Mode</button>
         </div>
     </div>
 
+    <div id="editProfileModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md transform scale-95 opacity-0 transition-all duration-300 ease-out dark:bg-gray-800 dark:text-gray-100" data-modal-content>
+            <h3 class="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-gray-100">Edit Profile</h3>
 
+            <div class="mb-5 text-left">
+                <label for="profileName" class="block text-gray-700 text-sm font-medium mb-2 dark:text-gray-300">Name:</label>
+                <input type="text" id="profileName" placeholder="Enter your name"
+                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+            </div>
+
+            <div class="mb-6 text-left">
+                <label for="profilePicture" class="block text-gray-700 text-sm font-medium mb-2 dark:text-gray-300">Profile Picture:</label>
+                <input type="file" id="profilePicture" accept="image/*" onchange="previewImage(event)"
+                       class="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer dark:text-gray-400 dark:file:bg-blue-900 dark:file:text-blue-200 dark:hover:file:bg-blue-800" />
+            </div>
+
+            <img id="imagePreview" src="" alt="Image Preview" class="hidden w-28 h-28 rounded-full object-cover mx-auto mb-6 border-4 border-gray-300 shadow-md dark:border-gray-600" />
+
+            <div class="flex justify-end space-x-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <button onclick="saveProfile()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-5 rounded-lg transition duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 shadow-md">Save</button>
+                <button onclick="closeEditProfileModal()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2.5 px-5 rounded-lg transition duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 shadow-md dark:bg-gray-600 dark:text-gray-100 dark:hover:bg-gray-500">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="searchHistoryPopup" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4 hidden">
+        <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md relative transform scale-95 opacity-0 transition-all duration-300 ease-out dark:bg-gray-800 dark:text-gray-100" data-modal-content>
+            <button onclick="closeModal(searchHistoryPopup)" class="absolute top-3 right-4 text-gray-500 hover:text-gray-700 text-4xl font-light leading-none dark:text-gray-400 dark:hover:text-gray-200">&times;</button>
+            <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">Search History</h2>
+            <ul id="searchHistoryList" class="list-none p-0 m-0 max-h-80 overflow-y-auto border border-gray-200 rounded-lg dark:border-gray-700">
+                </ul>
+            <button onclick="deleteSearchHistory()" class="mt-6 bg-red-600 hover:bg-red-700 text-white font-semibold py-2.5 px-5 rounded-lg w-full transition duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 shadow-md">Clear All History</button>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
