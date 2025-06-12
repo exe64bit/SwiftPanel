@@ -8,7 +8,7 @@ Note that this project was fully created with ChatGPT. While AI provided the cod
 Feel free to modify and contribute! 🚀
 
 ## Click The Link to Preview The Webpage
-https://programmerdada.github.io/SwiftPanel/
+https://exe64bit.github.io/SwiftPanel/
 
 ## 🔥 Features
 
@@ -27,7 +27,7 @@ https://programmerdada.github.io/SwiftPanel/
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/ProgrammerDada/SwiftPanel.git
+   git clone https://github.com/exe64bit/SwiftPanel.git
    ```
 2. Navigate to the project folder:
    ```bash
@@ -37,7 +37,7 @@ https://programmerdada.github.io/SwiftPanel/
 
 ## 🎨 UI Preview
 
-![Dashboard Preview](https://raw.githubusercontent.com/ProgrammerDada/SwiftPanel/refs/heads/main/preview.png)
+![Dashboard Preview](https://raw.githubusercontent.com/exe64bit/SwiftPanel/refs/heads/main/preview.png)
 
 ## ⚙️ Usage
 - Start typing in the search bar to get suggestions.
